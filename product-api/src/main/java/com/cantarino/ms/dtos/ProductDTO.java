@@ -6,13 +6,16 @@ import javax.validation.constraints.NotNull;
 
 public class ProductDTO {
 
-    @NotBlank
+    @NotBlank(message = "{productIdentifier.not.blank}")
     private String productIdentifier;
-    @NotBlank
+
+    @NotBlank(message = "{name.not.blank}")
     private String nome;
-    @NotNull
+
+    @NotBlank(message = "{preco.not.blank}")
     private Float preco;
-    @NotNull
+
+    @NotBlank(message = "{category.not.blank}")
     private CategoryDTO category;
 
 
