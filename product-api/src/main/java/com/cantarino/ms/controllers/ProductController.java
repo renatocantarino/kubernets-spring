@@ -2,12 +2,11 @@ package com.cantarino.ms.controllers;
 
 import com.cantarino.ms.dtos.ProductDTO;
 import com.cantarino.ms.services.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -20,8 +19,20 @@ public class ProductController {
     }
 
     @GetMapping("/produtos")
-    public ResponseEntity<List<ProductDTO>> getUsuarios()
+    public ResponseEntity<List<ProductDTO>> getProdutos()
     {
         return ResponseEntity.ok(productService.All());
+    }
+
+    @PostMapping("/produtos")
+    public ResponseEntity<ProductDTO> create(@Valid @RequestBody ProductDTO productDTO)
+    {
+        return new ResponseEntity<>(productService.Add(productDTO), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/produtos/categoria/{categoryId}")
+    public ResponseEntity<List<ProductDTO>> getProductsByCategory(@PathVariable Long categoryId)
+    {
+        return ResponseEntity.ok(productService.getByCategory(categoryId));
     }
 }
