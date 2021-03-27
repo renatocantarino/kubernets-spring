@@ -1,15 +1,28 @@
 package com.cantarino.ms.dtos;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 import java.util.Objects;
 
 public class UserDTO {
 
+    @NotBlank(message = "{name.not.blank}")
     private String nome;
+
+    @NotBlank(message = "{cpf.not.blank}")
     private String cpf;
+
+    @NotBlank(message = "{endereco.not.blank}")
     private String endereco;
+
+    @NotBlank(message = "{email.not.blank}")
+    @Email(message = "{email.not.valid}")
     private String email;
+
+    @NotBlank(message = "{telefone.not.blank}")
     private String telefone;
+
     private Date dataCadastro;
 
     public UserDTO(String nome, String cpf, String endereco, String email, String telefone, Date dataCadastro) {

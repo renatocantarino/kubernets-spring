@@ -16,12 +16,12 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
+
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    public List<UserDTO> All()
-    {
+    public List<UserDTO> All() {
         List<User> usuarios = userRepository.findAll();
         return usuarios
                 .stream()
@@ -40,25 +40,21 @@ public class UserService {
 
     }
 
-    public void Remove(String cpf)
-    {
+    public void Remove(String cpf) {
         Optional<User> user = userRepository.findByCpf(cpf);
         user.ifPresent(userRepository::delete);
     }
 
-    public UserDTO Get(String cpf)
-    {
+    public UserDTO Get(String cpf) {
         Optional<User> user = userRepository.findByCpf(cpf);
         return user.map(this::ConvertToDTO).orElse(null);
     }
 
 
-
     private UserDTO ConvertToDTO(User user) {
-        return new UserDTO(user.getNome(), user.getCpf() , user.getEndereco(),
-                           user.getEmail(), user.getTelefone(), user.getDataCadastro());
+        return new UserDTO(user.getNome(), user.getCpf(), user.getEndereco(),
+                user.getEmail(), user.getTelefone(), user.getDataCadastro());
     }
-
 
 
 }
