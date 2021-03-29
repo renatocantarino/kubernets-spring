@@ -1,12 +1,13 @@
 package com.cantarino.ms.services;
 
 import com.cantarino.ms.dtos.ShopDTO;
+import com.cantarino.ms.dtos.filters.ShopReportDTO;
 import com.cantarino.ms.models.Shop;
 import com.cantarino.ms.repositories.ShopRepository;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,6 +54,19 @@ public class ShopService {
         return shopDTO;
     }
 
+    public List<ShopDTO> getShopsByFilter(Date dataInicio, Date dataFim, Float valorMinimo)
+    {
+        List<Shop>  report = shopRepository.getReportByFilter(dataInicio,dataFim, valorMinimo );
+        return  report
+                .stream()
+                .map(this::ConvertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    public ShopReportDTO getShopsByDate(Date dataInicio, Date dataFim)
+    {
+        return shopRepository.getReportByDate(dataInicio,dataFim);
+    }
     private ShopDTO ConvertToDTO(Shop shop) {
         ModelMapper _mapper = new ModelMapper();
         return _mapper.map(shop, ShopDTO.class);
