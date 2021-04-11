@@ -19,31 +19,26 @@ public class ProductService {
 
     public List<ProductDTO> All() {
 
-        List<Product> produtos = productRepository.findAll();
-        return produtos
-                .stream()
-                .map(this::ConvertToDTO)
-                .collect(Collectors.toList());
+        return productRepository.findAll()
+                                .stream()
+                                .map(this::ConvertToDTO)
+                                .collect(Collectors.toList());
     }
 
     private ProductDTO ConvertToDTO(Product user) {
-        return new ProductDTO();
+        return new ModelMapper().map(user , ProductDTO.class);
     }
 
     public List<ProductDTO> getByCategory(Long categoryId) {
 
-        List<Product> produtos = productRepository.findByCategory(categoryId);
-        return produtos
+        return productRepository.findByCategory_Id(categoryId)
                 .stream()
                 .map(this::ConvertToDTO)
                 .collect(Collectors.toList());
-
-
     }
 
     public ProductDTO Add(ProductDTO productDTO) {
-        ModelMapper _mapper = new ModelMapper();
-        Product product = _mapper.map(productDTO , Product.class);
+        Product product =  new ModelMapper().map(productDTO , Product.class);
         productRepository.save(product);
 
         return productDTO;
